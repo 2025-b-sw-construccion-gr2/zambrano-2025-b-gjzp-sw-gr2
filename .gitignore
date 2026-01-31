@@ -1,3 +1,17 @@
 *docx
 Clase 011\spoty.py
 .venv
+
+# IntelliJ IDEA
+.idea/
+*.iws
+*.iml
+*.ipr
+out/
+
+# Maven - Carpeta donde se generan los .class y .war
+**/target/
+
+# Archivos temporales de sistema
+.DS_Store
+Thumbs.db
