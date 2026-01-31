@@ -9,21 +9,21 @@ RUN mvn clean package -DskipTests
 # --- ETAPA 2: RUNTIME (Tomcat 10 para Jakarta EE) ---
 FROM tomcat:10.1-jdk21
 
-# Instalar unzip para poder descomprimir el WAR y editarlo
 RUN apt-get update && apt-get install -y unzip && rm -rf /var/lib/apt/lists/*
-
-# Limpiar aplicaciones por defecto de Tomcat
 RUN rm -rf /usr/local/tomcat/webapps/ROOT
 
-# Copiar el WAR compilado desde la etapa 1
+# Copiamos el WAR
 COPY --from=build /app/target/*.war /usr/local/tomcat/webapps/ROOT.war
 
-# Copiar el script de inicio (lo crearemos en el paso 2)
+# Copiamos el script
 COPY entrypoint.sh /entrypoint.sh
+
+# --- LA CURA PARA WINDOWS ---
+# Esto elimina los saltos de línea \r que causan errores en Linux
+RUN sed -i 's/\r$//' /entrypoint.sh
+# -----------------------------
+
 RUN chmod +x /entrypoint.sh
 
-# Exponer el puerto 8080
 EXPOSE 8080
-
-# Usar el script como comando de arranque
 CMD ["/entrypoint.sh"]
