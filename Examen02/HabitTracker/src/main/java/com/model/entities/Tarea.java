@@ -1,7 +1,5 @@
 package com.model.entities;
 
-import java.io.Serializable;
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -10,48 +8,48 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import java.io.Serializable;
 
 @Entity
 @Table(name = "Tarea")
-public class Tarea implements Serializable{
+public class Tarea implements Serializable {
 
-	private static final long serialVersionUID = 1L;
-	
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int idTarea;
-	
-	@Column(name = "nombreTarea")
-	private String nombreTarea; // Cambio de int a String para poder escribir el nombre
-	
-	@ManyToOne
-	@JoinColumn(name = "idHabito")
-	private Habito habito; // Cambio de int a la clase Habito para crear la relación
-	
-	public Tarea() {}
+  private static final long serialVersionUID = 1L;
 
-	public int getIdTarea() {
-		return idTarea;
-	}
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private int idTarea;
 
-	public void setIdTarea(int idTarea) {
-		this.idTarea = idTarea;
-	}
+  @Column(name = "nombreTarea")
+  private String nombreTarea; // Cambio de int a String para poder escribir el nombre
 
-	public String getNombreTarea() {
-		return nombreTarea;
-	}
+  @ManyToOne
+  @JoinColumn(name = "idHabito")
+  private Habito habito; // Cambio de int a la clase Habito para crear la relación
 
-	public void setNombreTarea(String nombreTarea) {
-		this.nombreTarea = nombreTarea;
-	}
+  public Tarea() {}
 
-	public Habito getHabito() {
-		return habito;
-	}
+  public int getIdTarea() {
+    return idTarea;
+  }
 
-	public void setHabito(Habito habito) {
-		this.habito = habito;
-	}
-	
+  public void setIdTarea(int idTarea) {
+    this.idTarea = idTarea;
+  }
+
+  public String getNombreTarea() {
+    return nombreTarea;
+  }
+
+  public void setNombreTarea(String nombreTarea) {
+    this.nombreTarea = nombreTarea;
+  }
+
+  public Habito getHabito() {
+    return habito;
+  }
+
+  public void setHabito(Habito habito) {
+    this.habito = habito;
+  }
 }

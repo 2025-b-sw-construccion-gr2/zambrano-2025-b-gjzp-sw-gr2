@@ -1,94 +1,89 @@
 package com.model.entities;
 
-import java.io.Serializable;
-
 import jakarta.persistence.*;
+import java.io.Serializable;
 
 @Entity
 @Table(name = "usuarios")
 public class Usuario implements Serializable {
 
-	private static final long serialVersionUID = 1L;
+  private static final long serialVersionUID = 1L;
 
-	@Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int idUsuario;
-	
-    
-	@Column(name = "nombre", length = 100, nullable = false)
-	private String nombre;
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private int idUsuario;
 
+  @Column(name = "nombre", length = 100, nullable = false)
+  private String nombre;
 
-	@Column(name = "apellido", length = 100, nullable = false)
-	private String apellido;
+  @Column(name = "apellido", length = 100, nullable = false)
+  private String apellido;
 
+  @Column(name = "correo_electronico", unique = true, nullable = false)
+  private String correoElectronico;
 
-	@Column(name = "correo_electronico", unique = true, nullable = false)
-	private String correoElectronico;
+  @Column(name = "password", nullable = false)
+  private String password;
 
+  @Column(name = "rol", length = 20, nullable = false)
+  private String rol; // "admin" o "usuario"
 
-	@Column(name = "password", nullable = false)
-	private String password;
+  public Usuario() {}
 
-	@Column(name = "rol", length = 20, nullable = false)
-	private String rol; // "admin" o "usuario"
+  public Usuario(
+      String nombre, String apellido, String correoElectronico, String password, String rol) {
+    this.nombre = nombre;
+    this.apellido = apellido;
+    this.correoElectronico = correoElectronico;
+    this.password = password;
+    this.rol = rol;
+  }
 
-	public Usuario() {}
+  public int getIdUsuario() {
+    return idUsuario;
+  }
 
-	public Usuario(String nombre, String apellido, String correoElectronico, String password, String rol) {
-		this.nombre = nombre;
-		this.apellido = apellido;
-		this.correoElectronico = correoElectronico;
-		this.password = password;
-		this.rol = rol;
-	}
+  public void setIdUsuario(int idUsuario) {
+    this.idUsuario = idUsuario;
+  }
 
-    public int getIdUsuario() {
-		return idUsuario;
-	}
+  public String getNombre() {
+    return nombre;
+  }
 
-	public void setIdUsuario(int idUsuario) {
-		this.idUsuario = idUsuario;
-	}
+  public void setNombre(String nombre) {
+    this.nombre = nombre;
+  }
 
-	public String getNombre() {
-		return nombre;
-	}
+  public String getApellido() {
+    return apellido;
+  }
 
-	public void setNombre(String nombre) {
-		this.nombre = nombre;
-	}
+  public void setApellido(String apellido) {
+    this.apellido = apellido;
+  }
 
-	public String getApellido() {
-		return apellido;
-	}
+  public String getCorreoElectronico() {
+    return correoElectronico;
+  }
 
-	public void setApellido(String apellido) {
-		this.apellido = apellido;
-	}
+  public void setCorreoElectronico(String correoElectronico) {
+    this.correoElectronico = correoElectronico;
+  }
 
-	public String getCorreoElectronico() {
-		return correoElectronico;
-	}
+  public String getPassword() {
+    return password;
+  }
 
-	public void setCorreoElectronico(String correoElectronico) {
-		this.correoElectronico = correoElectronico;
-	}
+  public void setPassword(String password) {
+    this.password = password;
+  }
 
-	public String getPassword() {
-		return password;
-	}
+  public String getRol() {
+    return rol;
+  }
 
-	public void setPassword(String password) {
-		this.password = password;
-	}
-
-	public String getRol() {
-		return rol;
-	}
-
-	public void setRol(String rol) {
-		this.rol = rol;
-	}
-    
+  public void setRol(String rol) {
+    this.rol = rol;
+  }
 }
