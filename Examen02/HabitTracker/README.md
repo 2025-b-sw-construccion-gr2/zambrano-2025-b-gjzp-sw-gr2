@@ -5,6 +5,7 @@
 ![Docker](https://img.shields.io/badge/Docker-Enabled-blue?style=for-the-badge&logo=docker)
 ![Render](https://img.shields.io/badge/Deploy-Render-success?style=for-the-badge&logo=render)
 ![Postgres](https://img.shields.io/badge/PostgreSQL-Supabase-336791?style=for-the-badge&logo=postgresql)
+![Build Status](https://img.shields.io/github/actions/workflow/status/2025-b-sw-construccion-gr2/zambrano-2025-b-gjzp-sw-gr2/ci.yaml?style=for-the-badge&label=Build&branch=main)
 
 Aplicación web para el seguimiento y gestión de hábitos personales, desarrollada como proyecto final de la materia de Construcción de Software. Permite a los usuarios registrarse, crear hábitos, marcar su cumplimiento diario y visualizar su progreso.
 
@@ -27,6 +28,33 @@ Para facilitar la revisión, se ha configurado un usuario administrador con dato
 | Rol | Usuario (Email) | Contraseña |
 | :--- | :--- | :--- |
 | **Admin** | `jhair@ejemplo.com` | `12354456` |
+
+---
+
+## 🔄 CI/CD y Calidad de Software
+
+Para garantizar la integridad del código, se ha implementado un flujo de trabajo basado en **GitFlow** con integración continua mediante **GitHub Actions**.
+
+### 1. Protección de Ramas (Branch Protection)
+La rama `develop` está protegida contra escritura directa. Cualquier intento de *push* sin pasar por un Pull Request es rechazado automáticamente por el servidor.
+
+> *Evidencia de bloqueo al intentar push directo a develop:*
+![Protección de Rama](docs/images/branch-protection.png)
+
+### 2. Verificación Automática (Pipeline)
+Cada Pull Request dispara un pipeline de validación estricta que ejecuta:
+* **Format:** Verificación de estilo de código (Spotless).
+* **Lint:** Análisis estático de código (Checkstyle).
+* **Tests:** Ejecución de pruebas unitarias y generación de reporte de cobertura (JaCoCo).
+* **Build:** Compilación del proyecto para asegurar que no hay errores de sintaxis.
+
+> *Evidencia de Pull Request con todos los controles exitosos:*
+![Checks del PR](docs/images/pr-checks.png)
+
+### 3. Ejecución del Workflow
+Una vez aprobado el Merge, el sistema ejecuta el empaquetado final y, si es la rama `main` o `develop`, prepara los artefactos para despliegue.
+
+![Pipeline Ejecutado](docs/images/pipeline-success.png)
 
 ---
 
@@ -106,5 +134,5 @@ Para verificar el correcto funcionamiento del sistema tras el despliegue:
 
 ### Autores
 * **Jhair Zambrano** - *Diagramado, Desarrollo y Despliegue* - [GitHub Profile](https://github.com/jhairzp27)
-* **Gabriel Maldonado** - *Planning y Refinamiento* - [GitHub Profile](https://github.com/jhairzp27)
-* **Daniel Moncayo** - *Desarrollo y Despliegue* - [GitHub Profile](https://github.com/jhairzp27)
+* **Gabriel Maldonado** - *Planning y Refinamiento* - [GitHub Profile](https://github.com/MaldonadoGabs)
+* **Daniel Moncayo** - *Desarrollo y Despliegue* - [GitHub Profile](https://github.com/Daniel-Moncayo)
