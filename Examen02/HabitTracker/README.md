@@ -23,11 +23,13 @@ El proyecto se encuentra desplegado y funcional en Render. Puedes acceder a trav
 
 ## 📋 Credenciales de Prueba
 
-Para facilitar la revisión, se ha configurado un usuario administrador con datos precargados:
+Para facilitar la revisión, se ha configurado un usuario y administrador con datos precargados:
 
-| Rol | Usuario (Email) | Contraseña |
-| :--- | :--- | :--- |
-| **Admin** | `jhair@ejemplo.com` | `12354456` |
+| Rol         | Usuario (Email)      | Contraseña |
+|:------------|:---------------------|:-----------|
+| **Admin**   | `jhair@ejemplo.com`  | `12354456` |
+| **Usuario** | `adrian@ejemplo.com` | `12345678` |
+
 
 ---
 
