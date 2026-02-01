@@ -1,52 +1,92 @@
-name: CI/CD Examen 02
+name: CI/CD Pipeline Examen
 
+# ACTIVADORES (TRIGGERS)
 on:
   push:
-    branches: [ "main", "feature/migracion-habit-tracker" ]
+    branches: [ "main", "develop" ]
   pull_request:
-    branches: [ "main" ]
+    branches: [ "develop", "main" ]
 
 jobs:
-  # TRABAJO 1: VERIFICAR QUE EL CÓDIGO COMPILA (CI)
-  build-java:
+  # TRABAJO 1: FORMAT CHECK (Estilo)
+  format:
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: ./Examen02/HabitTracker
-
     steps:
-      - name: Checkout del código
-        uses: actions/checkout@v4
-
-      - name: Configurar JDK 21
+      - uses: actions/checkout@v4
+      - name: Set up JDK 21
         uses: actions/setup-java@v4
         with:
           java-version: '21'
           distribution: 'temurin'
           cache: maven
+      - name: Verificar Estilo (Spotless)
+        run: mvn spotless:check
 
-      - name: Compilar y Verificar (Skip Tests para agilidad)
-        run: mvn clean package -DskipTests
-
-  # TRABAJO 2: CONSTRUIR Y SUBIR DOCKER (CD)
-  docker-push:
-    needs: build-java
+  # TRABAJO 2: LINT (Calidad)
+  lint:
     runs-on: ubuntu-latest
-    if: github.event_name == 'push'
-
     steps:
-      - name: Checkout del código
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
+      - name: Set up JDK 21
+        uses: actions/setup-java@v4
+        with:
+          java-version: '21'
+          distribution: 'temurin'
+          cache: maven
+      - name: Correr Linter (Checkstyle)
+        run: mvn checkstyle:check -Dcheckstyle.failOnViolation=false
 
-      - name: Login en Docker Hub
+  # TRABAJO 3: TESTS & COBERTURA
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up JDK 21
+        uses: actions/setup-java@v4
+        with:
+          java-version: '21'
+          distribution: 'temurin'
+          cache: maven
+      - name: Ejecutar Tests y Cobertura (JaCoCo)
+        run: mvn test
+
+      # Sube el reporte de cobertura
+      - name: Upload Coverage Report
+        uses: actions/upload-artifact@v4
+        with:
+          name: jacoco-report
+          path: target/site/jacoco/
+
+  # TRABAJO 4: BUILD (Compilación)
+  build:
+    needs: [format, lint, test]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up JDK 21
+        uses: actions/setup-java@v4
+        with:
+          java-version: '21'
+          distribution: 'temurin'
+          cache: maven
+      - name: Compilar y Empaquetar
+        run: mvn package -DskipTests
+
+  # TRABAJO 5: DOCKER PUSH (Despliegue)
+  docker-push:
+    needs: build
+    runs-on: ubuntu-latest
+    if: github.event_name == 'push' && (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/develop')
+    steps:
+      - uses: actions/checkout@v4
+      - name: Login to Docker Hub
         uses: docker/login-action@v3
         with:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
-
-      - name: Construir y Subir Imagen
+      - name: Build and Push
         uses: docker/build-push-action@v5
         with:
-          context: ./Examen02/HabitTracker
+          context: .
           push: true
           tags: ${{ secrets.DOCKER_USERNAME }}/habit-tracker:latest
