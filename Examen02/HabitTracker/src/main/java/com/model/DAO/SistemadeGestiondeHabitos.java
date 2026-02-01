@@ -1,4 +1,3 @@
 package com.model.DAO;
 
-public class SistemadeGestiondeHabitos {
-}
+public class SistemadeGestiondeHabitos {}
